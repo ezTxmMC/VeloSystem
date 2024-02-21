@@ -1,0 +1,4 @@
+name: VeloSystem
+main:
+version: ${version}
+authors: [ezTxmMC]
