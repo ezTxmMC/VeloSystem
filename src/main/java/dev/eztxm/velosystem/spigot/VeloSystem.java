@@ -7,11 +7,15 @@ public final class VeloSystem extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        instance = this;
     }
 
     @Override
     public void onDisable() {
+        instance = null;
+    }
 
+    public static VeloSystem getInstance() {
+        return instance;
     }
 }
