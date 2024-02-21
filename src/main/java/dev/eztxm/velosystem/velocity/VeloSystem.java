@@ -1,11 +1,15 @@
 package dev.eztxm.velosystem.velocity;
 
 import com.google.inject.Inject;
-import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
+import dev.eztxm.velosystem.velocity.command.GoToCommand;
+import dev.eztxm.velosystem.velocity.util.CommandMetaUtil;
 import org.slf4j.Logger;
 
 @Plugin(
@@ -29,6 +33,9 @@ public class VeloSystem {
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         instance = this;
+        CommandManager commandManager = server.getCommandManager();
+        CommandMeta gotoMeta = new CommandMetaUtil(this, commandManager).create("goto");
+        commandManager.register(gotoMeta, new GoToCommand());
     }
 
     @Subscribe
