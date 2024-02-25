@@ -9,6 +9,7 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import dev.eztxm.velosystem.velocity.command.GoToCommand;
+import dev.eztxm.velosystem.velocity.command.TeamChatCommand;
 import dev.eztxm.velosystem.velocity.util.CommandMetaUtil;
 import org.slf4j.Logger;
 
@@ -35,7 +36,9 @@ public class VeloSystem {
         instance = this;
         CommandManager commandManager = server.getCommandManager();
         CommandMeta gotoMeta = new CommandMetaUtil(this, commandManager).create("goto");
+        CommandMeta teamChatMeta = new CommandMetaUtil(this, commandManager).create("teamchat", "tc");
         commandManager.register(gotoMeta, new GoToCommand());
+        commandManager.register(teamChatMeta, new TeamChatCommand());
     }
 
     @Subscribe
