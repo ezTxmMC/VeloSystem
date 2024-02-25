@@ -24,15 +24,12 @@ public class TeamChatCommand implements SimpleCommand {
             return;
         }
         StringBuilder messageBuilder = new StringBuilder();
-        for (int i = 0; i < args.length; i++) {
-            if (args.length - 1 == i) {
-                messageBuilder.append(args[i]);
-                return;
-            }
+        for (int i = 0; i < args.length - 1; i++) {
             messageBuilder.append(args[i]).append(" ");
         }
         String message = messageBuilder.toString();
         VeloSystem.getInstance().getServer().getAllPlayers().forEach(players -> {
+            if (!players.hasPermission("velocity.teamchat")) return;
             players.sendMessage(MiniMessage.miniMessage().deserialize(
                     "<color:red><bold>Teamchat<reset> <color:dark_gray>| <color:gray>" + player.getUsername() + " <color:dark_gray>» <color:gray:>" + message)
             );
