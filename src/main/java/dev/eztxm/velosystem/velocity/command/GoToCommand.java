@@ -8,6 +8,9 @@ import dev.eztxm.velosystem.velocity.VeloSystem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -22,6 +25,10 @@ public class GoToCommand implements SimpleCommand {
         }
         if (!player.hasPermission("velosystem.command.goto")) {
             player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Du hast ungenügende Berechtigungen"));
+            return;
+        }
+        if (args.length != 1) {
+            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Bitte gebe einen Spielernamen an"));
             return;
         }
         Optional<Player> optionalPlayer = VeloSystem.getInstance().getServer().getPlayer(args[0]);
@@ -39,5 +46,16 @@ public class GoToCommand implements SimpleCommand {
         if (completableFuture.join().isSuccessful()) {
             player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Mit " + optionalServer.get().getServer().getServerInfo().getName() + " erfolgreich verbunden"));
         }
+    }
+
+    @Override
+    public List<String> suggest(Invocation invocation) {
+        String[] args = invocation.arguments();
+        if (args.length == 1) {
+            List<String> playerNames = new ArrayList<>();
+            VeloSystem.getInstance().getServer().getAllPlayers().forEach(player -> playerNames.add(player.getUsername()));
+            return playerNames;
+        }
+        return Collections.emptyList();
     }
 }
