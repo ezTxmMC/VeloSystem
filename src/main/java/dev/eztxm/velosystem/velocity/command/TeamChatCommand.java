@@ -24,8 +24,8 @@ public class TeamChatCommand implements SimpleCommand {
             return;
         }
         StringBuilder messageBuilder = new StringBuilder();
-        for (int i = 1; i < args.length - 1; i++) {
-            if (args.length -1 == i) {
+        for (int i = 0; i < args.length; i++) {
+            if (args.length - 1 == i) {
                 messageBuilder.append(args[i]);
                 return;
             }
