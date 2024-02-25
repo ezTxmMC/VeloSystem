@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class TeamChatCommand implements SimpleCommand {
+    private final String prefix = "<color:red><bold>Teamchat<reset> <color:dark_gray>| ";
 
     @Override
     public void execute(Invocation invocation) {
@@ -16,22 +17,22 @@ public class TeamChatCommand implements SimpleCommand {
             return;
         }
         if (!player.hasPermission("velosystem.teamchat")) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Du hast ungenügende Berechtigungen"));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<color:gray>Du hast ungenügende Berechtigungen"));
             return;
         }
         if (args.length < 1) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Gebe eine Nachricht ein"));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<color:gray>Gebe eine Nachricht ein"));
             return;
         }
         StringBuilder messageBuilder = new StringBuilder();
-        for (int i = 0; i < args.length - 1; i++) {
-            messageBuilder.append(args[i]).append(" ");
+        for (String arg : args) {
+            messageBuilder.append(arg).append(" ");
         }
         String message = messageBuilder.toString();
         VeloSystem.getInstance().getServer().getAllPlayers().forEach(players -> {
-            if (!players.hasPermission("velocity.teamchat")) return;
+            if (!players.hasPermission("velosystem.teamchat")) return;
             players.sendMessage(MiniMessage.miniMessage().deserialize(
-                    "<color:red><bold>Teamchat<reset> <color:dark_gray>| <color:gray>" + player.getUsername() + " <color:dark_gray>» <color:gray:>" + message)
+                    prefix + "<color:gray>" + player.getUsername() + " <color:dark_gray>» <color:gray:>" + message)
             );
         });
     }
