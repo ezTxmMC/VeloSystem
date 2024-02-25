@@ -42,9 +42,19 @@ public class GoToCommand implements SimpleCommand {
             player.sendMessage(MiniMessage.miniMessage().deserialize("<color:red>Server ungültig"));
             return;
         }
+        if (player.getCurrentServer().isPresent()) {
+            if (player.getCurrentServer().get().getServerInfo().getName().equalsIgnoreCase(optionalServer.get().getServerInfo().getName())) {
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Du bist bereits auf diesen Server"));
+                return;
+            }
+        }
         CompletableFuture<ConnectionRequestBuilder.Result> completableFuture = player.createConnectionRequest(optionalServer.get().getServer()).connect();
         if (completableFuture.join().isSuccessful()) {
             player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Mit " + optionalServer.get().getServer().getServerInfo().getName() + " erfolgreich verbunden"));
+            return;
+        }
+        if (completableFuture.isCancelled()) {
+            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:red>Konnte nicht mit " + optionalServer.get().getServer().getServerInfo().getName() + " verbinden"));
         }
     }
 
