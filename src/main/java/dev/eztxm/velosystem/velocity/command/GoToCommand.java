@@ -7,6 +7,7 @@ import com.velocitypowered.api.proxy.ServerConnection;
 import dev.eztxm.velosystem.velocity.VeloSystem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,41 +21,43 @@ public class GoToCommand implements SimpleCommand {
     public void execute(Invocation invocation) {
         String[] args = invocation.arguments();
         if (!(invocation.source() instanceof Player player)) {
-            invocation.source().sendMessage(Component.text("Du bist kein Spieler"));
+            invocation.source().sendMessage(Component.text(VeloSystem.getInstance().getMessageConfig().getNotAPlayer()));
             return;
         }
         if (!player.hasPermission("velosystem.command.goto")) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Du hast ungenügende Berechtigungen"));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getNoPerms()));
             return;
         }
         if (args.length != 1) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Bitte gebe einen Spielernamen an"));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getWrongArgsLength()));
             return;
         }
         Optional<Player> optionalPlayer = VeloSystem.getInstance().getServer().getPlayer(args[0]);
         if (optionalPlayer.isEmpty()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Dieser Spieler ist aktuell nicht online"));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getPlayerNotOnline()));
             return;
         }
         Player target = optionalPlayer.get();
         Optional<ServerConnection> optionalServer = target.getCurrentServer();
         if (optionalServer.isEmpty()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:red>Server ungültig"));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getInvalidServer()));
             return;
         }
         if (player.getCurrentServer().isPresent()) {
             if (player.getCurrentServer().get().getServerInfo().getName().equalsIgnoreCase(optionalServer.get().getServerInfo().getName())) {
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Du bist bereits auf diesen Server"));
+                player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getAlreadyConnected()));
                 return;
             }
         }
         CompletableFuture<ConnectionRequestBuilder.Result> completableFuture = player.createConnectionRequest(optionalServer.get().getServer()).connect();
         if (completableFuture.join().isSuccessful()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:gray>Mit " + optionalServer.get().getServer().getServerInfo().getName() + " erfolgreich verbunden"));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getConnectedSuccessfully(),
+                    Placeholder.parsed("server", optionalServer.get().getServer().getServerInfo().getName())));
             return;
         }
         if (completableFuture.isCancelled()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize("<color:red>Konnte nicht mit " + optionalServer.get().getServer().getServerInfo().getName() + " verbinden"));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getConnectionCanceled(),
+                    Placeholder.parsed("server", optionalServer.get().getServer().getServerInfo().getName())));
         }
     }
 

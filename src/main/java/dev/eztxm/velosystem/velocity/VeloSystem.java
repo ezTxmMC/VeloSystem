@@ -8,11 +8,15 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
+import dev.eztxm.config.JsonConfig;
+import dev.eztxm.velosystem.backend.config.MessageConfig;
 import dev.eztxm.velosystem.velocity.command.GoToCommand;
 import dev.eztxm.velosystem.velocity.command.TeamChatCommand;
 import dev.eztxm.velosystem.velocity.util.CommandMetaUtil;
+import lombok.Getter;
 import org.slf4j.Logger;
 
+@Getter
 @Plugin(
         name = "VeloSystem",
         id = "velosystem",
@@ -21,9 +25,10 @@ import org.slf4j.Logger;
         url = "https://eztxm.de"
 )
 public class VeloSystem {
-    private static VeloSystem instance;
+    @Getter private static VeloSystem instance;
     private final ProxyServer server;
     private final Logger logger;
+    private MessageConfig messageConfig;
 
     @Inject
     public VeloSystem(ProxyServer server, Logger logger) {
@@ -34,6 +39,7 @@ public class VeloSystem {
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         instance = this;
+        messageConfig = new MessageConfig(new JsonConfig("plugins/velosystem", "messages"));
         CommandManager commandManager = server.getCommandManager();
         CommandMeta gotoMeta = new CommandMetaUtil(this, commandManager).create("goto");
         CommandMeta teamChatMeta = new CommandMetaUtil(this, commandManager).create("teamchat", "tc");
@@ -44,17 +50,5 @@ public class VeloSystem {
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
         instance = null;
-    }
-
-    public Logger getLogger() {
-        return logger;
-    }
-
-    public ProxyServer getServer() {
-        return server;
-    }
-
-    public static VeloSystem getInstance() {
-        return instance;
     }
 }

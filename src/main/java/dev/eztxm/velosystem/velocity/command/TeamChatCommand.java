@@ -13,15 +13,15 @@ public class TeamChatCommand implements SimpleCommand {
     public void execute(Invocation invocation) {
         String[] args = invocation.arguments();
         if (!(invocation.source() instanceof Player player)) {
-            invocation.source().sendMessage(Component.text("Du bist kein Spieler"));
+            invocation.source().sendMessage(Component.text(VeloSystem.getInstance().getMessageConfig().getNotAPlayer()));
             return;
         }
         if (!player.hasPermission("velosystem.teamchat")) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<color:gray>Du hast ungenügende Berechtigungen"));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(prefix + VeloSystem.getInstance().getMessageConfig().getNoPerms()));
             return;
         }
         if (args.length < 1) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<color:gray>Gebe eine Nachricht ein"));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(prefix + VeloSystem.getInstance().getMessageConfig().getWrongArgsLength()));
             return;
         }
         StringBuilder messageBuilder = new StringBuilder();
