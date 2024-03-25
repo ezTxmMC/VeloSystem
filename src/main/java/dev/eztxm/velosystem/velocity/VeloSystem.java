@@ -25,7 +25,8 @@ import org.slf4j.Logger;
         url = "https://eztxm.de"
 )
 public class VeloSystem {
-    @Getter private static VeloSystem instance;
+    @Getter
+    private static VeloSystem instance;
     private final ProxyServer server;
     private final Logger logger;
     private MessageConfig messageConfig;
@@ -51,4 +52,5 @@ public class VeloSystem {
     public void onProxyShutdown(ProxyShutdownEvent event) {
         instance = null;
     }
+
 }
