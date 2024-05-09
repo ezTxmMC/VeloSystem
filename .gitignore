@@ -1,7 +1,13 @@
 /target/
-/dependency-reduced-pom.xml
+dependency-reduced-pom.xml
 /VeloSystem.iml
 /.idea/
 .classpath
 .project
 /.settings/
+/.vscode/
+
+/velosystem-assembly/target
+/velosystem-core/target
+/velosystem-spigot/target
+/velosystem-velocity/target

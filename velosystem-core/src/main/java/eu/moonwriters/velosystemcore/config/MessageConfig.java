@@ -45,10 +45,10 @@ public class MessageConfig {
     }
 
     private String getOrSet(String key, String set) {
-        String value = config.getString(key);
+        String value = config.get(key).asString();
         if (value == null) {
-            config.setString(key, set);
-            return config.getString(key);
+            config.set(key, set);
+            return config.get(key).asString();
         }
         return value;
     }

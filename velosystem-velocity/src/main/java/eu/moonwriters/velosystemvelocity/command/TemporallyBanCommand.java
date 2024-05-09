@@ -1,4 +1,4 @@
-package dev.eztxm.velosystem.velocity.command;
+package eu.moonwriters.velosystemvelocity.command;
 
 public class TemporallyBanCommand {
 }

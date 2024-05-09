@@ -1,10 +1,10 @@
-package dev.eztxm.velosystem.velocity.command;
+package eu.moonwriters.velosystemvelocity.command;
 
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ConnectionRequestBuilder;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
-import dev.eztxm.velosystem.velocity.VeloSystem;
+import eu.moonwriters.velosystemvelocity.VeloSystem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;

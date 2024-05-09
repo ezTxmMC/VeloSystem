@@ -45,17 +45,17 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>velosystemcore</artifactId>
+            <artifactId>velosystem-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>velosystemspigot</artifactId>
+            <artifactId>velosystem-spigot</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>velosystemvelocity</artifactId>
+            <artifactId>velosystem-velocity</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

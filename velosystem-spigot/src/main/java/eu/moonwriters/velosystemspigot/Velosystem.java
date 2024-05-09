@@ -1,4 +1,4 @@
-package dev.eztxm.velosystem.spigot;
+package eu.moonwriters.velosystemspigot;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

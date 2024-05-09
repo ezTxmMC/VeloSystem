@@ -1,11 +1,9 @@
 package eu.moonwriters.velosystemcore.config;
 
 import dev.eztxm.config.JsonConfig;
-import dev.eztxm.velosystem.backend.util.ValueType;
+import eu.moonwriters.velosystemcore.util.ValueType;
 import lombok.Getter;
-import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,6 +17,7 @@ public class MotdConfig {
     @Getter private boolean maintenance;
 
 
+    @SuppressWarnings("unchecked")
     public MotdConfig(JsonConfig config) {
         this.config = config;
         this.lineOne = (List<String>) getOrSet(ValueType.LIST, "Line-1", List.of("&e&lYourServer.com &8- &7The one of the all &8[&c1.20.4&8]"));
@@ -29,6 +28,7 @@ public class MotdConfig {
         this.maintenance = (boolean) getOrSet(ValueType.BOOLEAN, "Maintenance", true);
     }
 
+    @SuppressWarnings("unchecked")
     public void update() {
         this.lineOne = (List<String>) getOrSet(ValueType.LIST, "Line-1", List.of("&e&lYourServer.com &8- &7The one of the all &8[&c1.20.4&8]"));
         this.lineTwo = (List<String>) getOrSet(ValueType.LIST, "Line-2", List.of("&c&lNEW! &b&lCITYBUILD UPDATE"));
@@ -39,31 +39,11 @@ public class MotdConfig {
     }
 
     private Object getOrSet(ValueType type, String key, Object set) {
-        switch (type) {
-            case STRING -> {
-                String value = config.getString(key);
-                if (value == null) {
-                    config.setString(key, (String) set);
-                    return config.getString(key);
-                }
-                return value;
-            }
-            case BOOLEAN -> {
-                return config.getBoolean(key);
-            }
-            case LIST -> {
-                List<String> value = new ArrayList<>();
-                config.getJsonArray(key).toList().forEach(object -> value.add((String) object));
-                if (value.isEmpty()) {
-                    JSONArray jsonArray = new JSONArray(set);
-                    config.setJsonArray(key, jsonArray);
-                    return config.getString(key);
-                }
-                return value;
-            }
-            default -> {
-                return null;
-            }
+        Object value = config.get(key);
+        if (value == null) {
+            config.set(key, (String) set);
+            return config.get(key).asObject();
         }
+        return value;
     }
 }

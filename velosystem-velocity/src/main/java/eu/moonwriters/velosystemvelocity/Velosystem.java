@@ -1,4 +1,4 @@
-package dev.eztxm.velosystem.velocity;
+package eu.moonwriters.velosystemvelocity;
 
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
@@ -9,10 +9,10 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import dev.eztxm.config.JsonConfig;
-import dev.eztxm.velosystem.backend.config.MessageConfig;
-import dev.eztxm.velosystem.velocity.command.GoToCommand;
-import dev.eztxm.velosystem.velocity.command.TeamChatCommand;
-import dev.eztxm.velosystem.velocity.util.CommandMetaUtil;
+import eu.moonwriters.velosystemcore.config.MessageConfig;
+import eu.moonwriters.velosystemvelocity.command.GoToCommand;
+import eu.moonwriters.velosystemvelocity.command.TeamChatCommand;
+import eu.moonwriters.velosystemvelocity.util.CommandMetaUtil;
 import lombok.Getter;
 import org.slf4j.Logger;
 

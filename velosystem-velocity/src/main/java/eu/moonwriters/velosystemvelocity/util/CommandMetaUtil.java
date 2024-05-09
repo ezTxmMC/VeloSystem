@@ -1,4 +1,4 @@
-package dev.eztxm.velosystem.velocity.util;
+package eu.moonwriters.velosystemvelocity.util;
 
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.command.CommandMeta;
