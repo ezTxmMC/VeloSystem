@@ -1,5 +1,0 @@
-name: VeloSystem
-main: dev.eztxm.velosystem.spigot.VeloSystem
-version: '${version}'
-api-version: '1.20'
-authors: [ezTxmMC]

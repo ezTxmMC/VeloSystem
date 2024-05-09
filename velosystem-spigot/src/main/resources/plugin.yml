@@ -1,0 +1,4 @@
+name: Velosystem
+version: '${project.version}'
+main: eu.moonwriters.velosystemspigot.Velosystem
+api-version: '1.20'
