@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.github.ezTxmMC</groupId>
             <artifactId>ezLib</artifactId>
-            <version>1.0-ALPHA5</version>
+            <version>1.0-ALPHA6</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
