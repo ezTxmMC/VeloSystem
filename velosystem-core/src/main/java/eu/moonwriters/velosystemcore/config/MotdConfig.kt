@@ -1,49 +1,86 @@
-package eu.moonwriters.velosystemcore.config;
+package eu.moonwriters.velosystemcore.config
 
-import dev.eztxm.config.JsonConfig;
-import eu.moonwriters.velosystemcore.util.ValueType;
-import lombok.Getter;
-
-import java.util.List;
+import dev.eztxm.config.JsonConfig
+import eu.moonwriters.velosystemcore.util.ValueType
+import lombok.Getter
 
 @Getter
-public class MotdConfig {
-    private final JsonConfig config;
-    @Getter private List<String> lineOne;
-    @Getter private List<String> lineTwo;
-    @Getter private List<String> maintenanceLineOne;
-    @Getter private List<String> maintenanceLineTwo;
-    @Getter private List<String> maintenanceScreen;
-    @Getter private boolean maintenance;
+class MotdConfig(private val config: JsonConfig) {
+    @Getter
+    private var lineOne: List<String>
+
+    @Getter
+    private var lineTwo: List<String>
+
+    @Getter
+    private var maintenanceLineOne: List<String>
+
+    @Getter
+    private var maintenanceLineTwo: List<String>
+
+    @Getter
+    private var maintenanceScreen: List<String>
+
+    @Getter
+    private var maintenance: Boolean
 
 
-    @SuppressWarnings("unchecked")
-    public MotdConfig(JsonConfig config) {
-        this.config = config;
-        this.lineOne = (List<String>) getOrSet(ValueType.LIST, "Line-1", List.of("&e&lYourServer.com &8- &7The one of the all &8[&c1.20.4&8]"));
-        this.lineTwo = (List<String>) getOrSet(ValueType.LIST, "Line-2", List.of("&c&lNEW! &b&lCITYBUILD UPDATE"));
-        this.maintenanceLineOne = (List<String>) getOrSet(ValueType.LIST, "Maintenance-Line-1", List.of("&e&lYourServer.com &8- &7The one of the all &8[&c1.20.4&8]"));
-        this.maintenanceLineTwo = (List<String>) getOrSet(ValueType.LIST, "Maintenance-Line-2", List.of("&c&lMAINTENANCE! &7We are in maintenance for the next major update"));
-        this.maintenanceScreen = (List<String>) getOrSet(ValueType.LIST, "Maintenance-Screen", List.of("&e&lYourServer.com", " ", "&7We are in &cmaintenance", "&7Check our twitter and discord for news!"));
-        this.maintenance = (boolean) getOrSet(ValueType.BOOLEAN, "Maintenance", true);
+    init {
+        this.lineOne = getOrSet(
+            ValueType.LIST,
+            "Line-1",
+            listOf("&e&lYourServer.com &8- &7The one of the all &8[&c1.20.4&8]")
+        ) as List<String>
+        this.lineTwo = getOrSet(ValueType.LIST, "Line-2", listOf("&c&lNEW! &b&lCITYBUILD UPDATE")) as List<String>
+        this.maintenanceLineOne = getOrSet(
+            ValueType.LIST,
+            "Maintenance-Line-1",
+            listOf("&e&lYourServer.com &8- &7The one of the all &8[&c1.20.4&8]")
+        ) as List<String>
+        this.maintenanceLineTwo = getOrSet(
+            ValueType.LIST,
+            "Maintenance-Line-2",
+            listOf("&c&lMAINTENANCE! &7We are in maintenance for the next major update")
+        ) as List<String>
+        this.maintenanceScreen = getOrSet(
+            ValueType.LIST,
+            "Maintenance-Screen",
+            listOf("&e&lYourServer.com", " ", "&7We are in &cmaintenance", "&7Check our twitter and discord for news!")
+        ) as List<String>
+        this.maintenance = getOrSet(ValueType.BOOLEAN, "Maintenance", true) as Boolean
     }
 
-    @SuppressWarnings("unchecked")
-    public void update() {
-        this.lineOne = (List<String>) getOrSet(ValueType.LIST, "Line-1", List.of("&e&lYourServer.com &8- &7The one of the all &8[&c1.20.4&8]"));
-        this.lineTwo = (List<String>) getOrSet(ValueType.LIST, "Line-2", List.of("&c&lNEW! &b&lCITYBUILD UPDATE"));
-        this.maintenanceLineOne = (List<String>) getOrSet(ValueType.LIST, "Maintenance-Line-1", List.of("&e&lYourServer.com &8- &7The one of the all &8[&c1.20.4&8]"));
-        this.maintenanceLineTwo = (List<String>) getOrSet(ValueType.LIST, "Maintenance-Line-2", List.of("&c&lMAINTENANCE! &7We are in maintenance for the next major update"));
-        this.maintenanceScreen = (List<String>) getOrSet(ValueType.LIST, "Maintenance-Screen", List.of("&e&lYourServer.com", " ", "&7We are in &cmaintenance", "&7Check our twitter and discord for news!"));
-        this.maintenance = (boolean) getOrSet(ValueType.BOOLEAN, "Maintenance", true);
+    fun update() {
+        this.lineOne = getOrSet(
+            ValueType.LIST,
+            "Line-1",
+            listOf("&e&lYourServer.com &8- &7The one of the all &8[&c1.20.4&8]")
+        ) as List<String>
+        this.lineTwo = getOrSet(ValueType.LIST, "Line-2", listOf("&c&lNEW! &b&lCITYBUILD UPDATE")) as List<String>
+        this.maintenanceLineOne = getOrSet(
+            ValueType.LIST,
+            "Maintenance-Line-1",
+            listOf("&e&lYourServer.com &8- &7The one of the all &8[&c1.20.4&8]")
+        ) as List<String>
+        this.maintenanceLineTwo = getOrSet(
+            ValueType.LIST,
+            "Maintenance-Line-2",
+            listOf("&c&lMAINTENANCE! &7We are in maintenance for the next major update")
+        ) as List<String>
+        this.maintenanceScreen = getOrSet(
+            ValueType.LIST,
+            "Maintenance-Screen",
+            listOf("&e&lYourServer.com", " ", "&7We are in &cmaintenance", "&7Check our twitter and discord for news!")
+        ) as List<String>
+        this.maintenance = getOrSet(ValueType.BOOLEAN, "Maintenance", true) as Boolean
     }
 
-    private Object getOrSet(ValueType type, String key, Object set) {
-        Object value = config.get(key);
+    private fun getOrSet(type: ValueType, key: String, set: Any): Any {
+        val value: Any? = config[key]
         if (value == null) {
-            config.set(key, (String) set);
-            return config.get(key).asObject();
+            config[key] = set as String
+            return config[key].asObject()
         }
-        return value;
+        return value
     }
 }

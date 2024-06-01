@@ -1,4 +1,3 @@
-package eu.moonwriters.velosystemcore.database;
+package eu.moonwriters.velosystemcore.database
 
-public class ReportQuery {
-}
+class ReportQuery

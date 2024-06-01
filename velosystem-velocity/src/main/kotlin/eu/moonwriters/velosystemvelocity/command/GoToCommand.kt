@@ -1,74 +1,93 @@
-package eu.moonwriters.velosystemvelocity.command;
+package eu.moonwriters.velosystemvelocity.command
 
-import com.velocitypowered.api.command.SimpleCommand;
-import com.velocitypowered.api.proxy.ConnectionRequestBuilder;
-import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ServerConnection;
-import eu.moonwriters.velosystemvelocity.VeloSystem;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import com.velocitypowered.api.command.SimpleCommand
+import com.velocitypowered.api.proxy.ConnectionRequestBuilder
+import com.velocitypowered.api.proxy.Player
+import eu.moonwriters.velosystemvelocity.VeloSystem
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
+import java.util.*
+import java.util.concurrent.CompletableFuture
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
+class GoToCommand(
+    private val veloSystem: VeloSystem
+) : SimpleCommand {
 
-public class GoToCommand implements SimpleCommand {
-
-    @Override
-    public void execute(Invocation invocation) {
-        String[] args = invocation.arguments();
-        if (!(invocation.source() instanceof Player player)) {
-            invocation.source().sendMessage(Component.text(VeloSystem.getInstance().getMessageConfig().getNotAPlayer()));
-            return;
+    override fun execute(invocation: SimpleCommand.Invocation) {
+        val args = invocation.arguments()
+        if (invocation.source() !is Player) {
+            invocation.source().sendMessage(Component.text(veloSystem.messageConfig!!.notAPlayer))
+            return
         }
+        val player = invocation.source() as Player
         if (!player.hasPermission("velosystem.command.goto")) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getNoPerms()));
-            return;
+            player.sendMessage(
+                MiniMessage.miniMessage().deserialize(veloSystem.messageConfig!!.noPerms)
+            )
+            return
         }
-        if (args.length != 1) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getWrongArgsLength()));
-            return;
+        if (args.size != 1) {
+            player.sendMessage(
+                MiniMessage.miniMessage().deserialize(veloSystem.messageConfig!!.wrongArgsLength)
+            )
+            return
         }
-        Optional<Player> optionalPlayer = VeloSystem.getInstance().getServer().getPlayer(args[0]);
-        if (optionalPlayer.isEmpty()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getPlayerNotOnline()));
-            return;
+        val optionalPlayer: Optional<Player> = veloSystem.server.getPlayer(args[0])
+        if (optionalPlayer.isEmpty) {
+            player.sendMessage(
+                MiniMessage.miniMessage().deserialize(veloSystem.messageConfig!!.playerNotOnline)
+            )
+            return
         }
-        Player target = optionalPlayer.get();
-        Optional<ServerConnection> optionalServer = target.getCurrentServer();
-        if (optionalServer.isEmpty()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getInvalidServer()));
-            return;
+        val target = optionalPlayer.get()
+        val optionalServer = target.currentServer
+        if (optionalServer.isEmpty) {
+            player.sendMessage(
+                MiniMessage.miniMessage().deserialize(veloSystem.messageConfig!!.invalidServer)
+            )
+            return
         }
-        if (player.getCurrentServer().isPresent()) {
-            if (player.getCurrentServer().get().getServerInfo().getName().equalsIgnoreCase(optionalServer.get().getServerInfo().getName())) {
-                player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getAlreadyConnected()));
-                return;
+        if (player.currentServer.isPresent) {
+            if (player.currentServer.get().serverInfo.name
+                    .equals(optionalServer.get().serverInfo.name, ignoreCase = true)
+            ) {
+                player.sendMessage(
+                    MiniMessage.miniMessage()
+                        .deserialize(veloSystem.messageConfig!!.alreadyConnected)
+                )
+                return
             }
         }
-        CompletableFuture<ConnectionRequestBuilder.Result> completableFuture = player.createConnectionRequest(optionalServer.get().getServer()).connect();
-        if (completableFuture.join().isSuccessful()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getConnectedSuccessfully(),
-                    Placeholder.parsed("server", optionalServer.get().getServer().getServerInfo().getName())));
-            return;
+        val completableFuture: CompletableFuture<ConnectionRequestBuilder.Result> =
+            player.createConnectionRequest(optionalServer.get().server).connect()
+        if (completableFuture.join().isSuccessful) {
+            player.sendMessage(
+                MiniMessage.miniMessage().deserialize(
+                    veloSystem.messageConfig!!.connectedSuccessfully,
+                    Placeholder.parsed("server", optionalServer.get().server.serverInfo.name)
+                )
+            )
+            return
         }
-        if (completableFuture.isCancelled()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(VeloSystem.getInstance().getMessageConfig().getConnectionCanceled(),
-                    Placeholder.parsed("server", optionalServer.get().getServer().getServerInfo().getName())));
+        if (completableFuture.isCancelled) {
+            player.sendMessage(
+                MiniMessage.miniMessage().deserialize(
+                    veloSystem.messageConfig!!.connectionCanceled,
+                    Placeholder.parsed("server", optionalServer.get().server.serverInfo.name)
+                )
+            )
         }
     }
 
-    @Override
-    public List<String> suggest(Invocation invocation) {
-        String[] args = invocation.arguments();
-        if (args.length == 1) {
-            List<String> playerNames = new ArrayList<>();
-            VeloSystem.getInstance().getServer().getAllPlayers().forEach(player -> playerNames.add(player.getUsername()));
-            return playerNames;
+    override fun suggest(invocation: SimpleCommand.Invocation): List<String> {
+        val args = invocation.arguments()
+        if (args.size == 1) {
+            val playerNames: MutableList<String> = ArrayList()
+            veloSystem.server.allPlayers
+                .forEach { player -> playerNames.add(player.username) }
+            return playerNames
         }
-        return Collections.emptyList();
+        return emptyList()
     }
 }

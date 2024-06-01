@@ -1,6 +1,6 @@
-package eu.moonwriters.velosystemcore.util;
+package eu.moonwriters.velosystemcore.util
 
-public enum ValueType {
+enum class ValueType {
     STRING,
     BOOLEAN,
     LIST

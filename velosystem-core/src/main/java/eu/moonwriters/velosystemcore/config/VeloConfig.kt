@@ -1,4 +1,3 @@
-package eu.moonwriters.velosystemcore.config;
+package eu.moonwriters.velosystemcore.config
 
-public class VeloConfig {
-}
+class VeloConfig

@@ -1,21 +1,14 @@
-package eu.moonwriters.velosystemvelocity.util;
+package eu.moonwriters.velosystemvelocity.util
 
-import com.velocitypowered.api.command.CommandManager;
-import com.velocitypowered.api.command.CommandMeta;
+import com.velocitypowered.api.command.CommandManager
+import com.velocitypowered.api.command.CommandMeta
 
-public class CommandMetaUtil {
-    private final Object plugin;
-    private final CommandManager commandManager;
+class CommandMetaUtil(private val plugin: Any, private val commandManager: CommandManager) {
 
-    public CommandMetaUtil(Object plugin, CommandManager commandManager) {
-        this.plugin = plugin;
-        this.commandManager = commandManager;
-    }
-
-    public CommandMeta create(String commandName, String... aliases) {
+    fun create(commandName: String?, vararg aliases: String?): CommandMeta {
         return commandManager.metaBuilder(commandName)
-                .aliases(aliases)
-                .plugin(plugin)
-                .build();
+            .aliases(*aliases)
+            .plugin(plugin)
+            .build()
     }
 }

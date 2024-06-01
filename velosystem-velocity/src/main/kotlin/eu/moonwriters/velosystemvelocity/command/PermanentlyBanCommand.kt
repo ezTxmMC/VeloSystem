@@ -1,4 +1,3 @@
-package eu.moonwriters.velosystemvelocity.command;
+package eu.moonwriters.velosystemvelocity.command
 
-public class PermanentlyBanCommand {
-}
+class PermanentlyBanCommand
