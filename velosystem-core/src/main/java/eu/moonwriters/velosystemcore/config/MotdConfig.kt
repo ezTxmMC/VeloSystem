@@ -7,22 +7,22 @@ import lombok.Getter
 @Getter
 class MotdConfig(private val config: JsonConfig) {
     @Getter
-    private var lineOne: List<String>
+    var lineOne: List<String>
 
     @Getter
-    private var lineTwo: List<String>
+    var lineTwo: List<String>
 
     @Getter
-    private var maintenanceLineOne: List<String>
+    var maintenanceLineOne: List<String>
 
     @Getter
-    private var maintenanceLineTwo: List<String>
+    var maintenanceLineTwo: List<String>
 
     @Getter
-    private var maintenanceScreen: List<String>
+    var maintenanceScreen: List<String>
 
     @Getter
-    private var maintenance: Boolean
+    var maintenance: Boolean
 
 
     init {

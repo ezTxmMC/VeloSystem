@@ -7,32 +7,32 @@ import lombok.Getter
 class MessageConfig(private val config: JsonConfig) {
     // Normal
     @Getter
-    private var prefix: String
+    var prefix: String
 
     @Getter
-    private var noPerms: String
+    var noPerms: String
 
     @Getter
-    private var notAPlayer: String
+    var notAPlayer: String
 
     @Getter
-    private var wrongArgsLength: String
+    var wrongArgsLength: String
 
     @Getter
-    private var playerNotOnline: String
+    var playerNotOnline: String
 
     // System
     @Getter
-    private var invalidServer: String
+    var invalidServer: String
 
     @Getter
-    private var alreadyConnected: String
+    var alreadyConnected: String
 
     @Getter
-    private var connectedSuccessfully: String
+    var connectedSuccessfully: String
 
     @Getter
-    private var connectionCanceled: String
+    var connectionCanceled: String
 
 
     init {
