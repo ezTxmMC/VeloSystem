@@ -81,5 +81,11 @@
             <artifactId>BetterSpigotLib</artifactId>
             <version>1276ef8a3a</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
